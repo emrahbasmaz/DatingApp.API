@@ -9,8 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Apı.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [EnableCors("AllowSpecificOrigin")]
     public class ValuesController : ControllerBase
     {
         private readonly DataContext _context ;
