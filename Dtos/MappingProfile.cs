@@ -23,6 +23,7 @@ namespace DatingApp.Api.Dtos
                 .ForMember(d => d.PhotoUrl, opt => opt.MapFrom(s => s.Photos.FirstOrDefault(p => p.IsMain).Url))
                 .ForMember(d => d.Age, opt => opt.MapFrom(d => d.DateOfBirth.CalculateAge()));
 
+            CreateMap<UserForUpdateDto, Users>();
             //CreateMap<Users, UserForListDto>();
             //CreateMap<UserForListDto, Users>();
 
