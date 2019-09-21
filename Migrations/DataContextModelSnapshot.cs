@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DatingApp.Apı.Migrations
+namespace DatingApp.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -75,6 +75,8 @@ namespace DatingApp.Apı.Migrations
 
                     b.Property<bool>("IsMain");
 
+                    b.Property<string>("PublicId");
+
                     b.Property<string>("Url");
 
                     b.Property<int>("UsersId");
@@ -88,7 +90,7 @@ namespace DatingApp.Apı.Migrations
 
             modelBuilder.Entity("DatingApp.Api.Models.Photo", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.Users", "User")
+                    b.HasOne("DatingApp.API.Models.Users")
                         .WithMany("Photos")
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade);

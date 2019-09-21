@@ -18,6 +18,8 @@ namespace DatingApp.Api.Dtos
                 .ForMember(d => d.Age, opt => opt.MapFrom(d => d.DateOfBirth.CalculateAge()));
 
             CreateMap<PhotosForDetailDto, Photo>();
+            CreateMap<PhotoForCreationDto, Photo>();
+            CreateMap<Photo, PhotoForReturnDto>();
 
             CreateMap<Users, UserForListDto>()
                 .ForMember(d => d.PhotoUrl, opt => opt.MapFrom(s => s.Photos.FirstOrDefault(p => p.IsMain).Url))
@@ -32,6 +34,8 @@ namespace DatingApp.Api.Dtos
 
             CreateMap<Users, UserForLoginDto>();
             //CreateMap<UserForLoginDto, Users>();
+
+
 
         }
     }

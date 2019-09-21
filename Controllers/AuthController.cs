@@ -3,6 +3,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using DatingApp.Api.Dtos;
 using DatingApp.API.Data;
 using DatingApp.API.Dtos;
 using DatingApp.API.Models;
@@ -17,10 +19,13 @@ namespace DatingApp.API.Controllers
     [EnableCors("AllowSpecificOrigin")]
     public class AuthController : Controller
     {
-        private readonly IAuthRepository repo;
-        public AuthController(IAuthRepository repo)
+        private readonly IAuthRepository _repo;
+        private readonly IMapper _mapper;
+
+        public AuthController(IAuthRepository repo, IMapper mapper)
         {
-            this.repo = repo;
+            this._mapper = mapper;
+            this._repo = repo;
         }
 
         [HttpPost("register")]
@@ -28,7 +33,7 @@ namespace DatingApp.API.Controllers
         {
             if (!string.IsNullOrEmpty(userForRegisterDto.Username))
                 userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
-            if (await repo.UserExist(userForRegisterDto.Username))
+            if (await _repo.UserExist(userForRegisterDto.Username))
                 ModelState.AddModelError("Username", "Username already exist");
 
             //validate request
@@ -40,7 +45,7 @@ namespace DatingApp.API.Controllers
                 Username = userForRegisterDto.Username
             };
 
-            await repo.Register(userToCreate, userForRegisterDto.Password);
+            await _repo.Register(userToCreate, userForRegisterDto.Password);
 
             return StatusCode(201);
 
@@ -51,7 +56,7 @@ namespace DatingApp.API.Controllers
         {
             try
             {
-                Users userFromRepo = await repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
+                Users userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
 
                 if (userFromRepo == null)
                     return Unauthorized();
@@ -73,7 +78,8 @@ namespace DatingApp.API.Controllers
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 var tokenString = tokenHandler.WriteToken(token);
 
-                return Ok(new { tokenString });
+                var user = _mapper.Map<UserForListDto>(userFromRepo);
+                return Ok(new { tokenString, user });
             }
             catch (Exception)
             {
