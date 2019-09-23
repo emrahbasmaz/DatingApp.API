@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.Api.Dtos;
+using DatingApp.Api.Extension;
 using DatingApp.Api.Models;
 using DatingApp.API.Data;
 using DatingApp.API.Models;
@@ -41,11 +42,11 @@ namespace DatingApp.Api.Data
             return user;
         }
 
-        public async Task<IEnumerable<Users>> GetUsers()
+        public async Task<PagedList<Users>> GetUsers(UserParams userParams)
         {
-            var users = await _context.Users.Include(p => p.Photos).ToListAsync();
+            var users = _context.Users.Include(p => p.Photos);
 
-            return users;
+            return await PagedList<Users>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<bool> SaveAll()
@@ -61,7 +62,7 @@ namespace DatingApp.Api.Data
 
         public Task<Photo> GetMainPhotoForUser(int id)
         {
-            return _context.Photos.Where( s => s.UsersId == id).FirstOrDefaultAsync(p=> p.IsMain);
+            return _context.Photos.Where(s => s.UsersId == id).FirstOrDefaultAsync(p => p.IsMain);
         }
     }
 }

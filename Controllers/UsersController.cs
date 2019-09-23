@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using DatingApp.Api.Extension;
 using DatingApp.Api.Data;
 using DatingApp.Api.Dtos;
 using DatingApp.API.Models;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.Api.Controllers
 {
+    //[ServiceFilter(typeof(LogUserActivity))]
     [ApiController]
     [Route("api/[controller]")]
     [EnableCors("AllowSpecificOrigin")]
@@ -29,13 +31,16 @@ namespace DatingApp.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
             try
             {
-                IEnumerable<Users> users = await _datingRepository.GetUsers();
+                PagedList<Users> users = await _datingRepository.GetUsers(userParams);
 
-                var usersToReturn = _mapper.Map<IEnumerable<Users>, List<UserForListDto>>(users);
+                var usersToReturn = _mapper.Map<PagedList<Users>, List<UserForListDto>>(users);
+
+                Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+
                 return Ok(usersToReturn);
             }
             catch (Exception ex)

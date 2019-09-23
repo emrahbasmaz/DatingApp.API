@@ -1,4 +1,5 @@
-﻿using DatingApp.Api.Models;
+﻿using DatingApp.Api.Extension;
+using DatingApp.Api.Models;
 using DatingApp.API.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace DatingApp.Api.Data
         void Update<T>(T entity) where T : class;
         Task<bool> SaveAll();
 
-        Task<IEnumerable<Users>> GetUsers();
+        Task<PagedList<Users>> GetUsers(UserParams userParams);
         Task<Users> GetUser(int id);
         Task<Photo> GetPhoto(int id);
 
