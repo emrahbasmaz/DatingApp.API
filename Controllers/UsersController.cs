@@ -35,6 +35,11 @@ namespace DatingApp.Api.Controllers
         {
             try
             {
+                var currentUser = await _datingRepository.GetUser(userParams.UserId);
+                if (string.IsNullOrEmpty(userParams.Gender))
+                {
+                    userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
+                }
                 PagedList<Users> users = await _datingRepository.GetUsers(userParams);
 
                 var usersToReturn = _mapper.Map<PagedList<Users>, List<UserForListDto>>(users);
