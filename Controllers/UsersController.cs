@@ -11,6 +11,7 @@ using DatingApp.API.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using DatingApp.Api.Models;
 
 namespace DatingApp.Api.Controllers
 {
@@ -103,6 +104,39 @@ namespace DatingApp.Api.Controllers
             {
                 throw new Exception($"Updating user {id} failed during save operation...Message:" + ex.Message);
             }
+        }
+
+        [HttpPost("{id}/like/{recepientId}")]
+        public async Task<IActionResult> LikeUser(int id, int recepientId)
+        {
+            var user = await _datingRepository.GetUser(id);
+
+            var like = await _datingRepository.GetLike(id, recepientId);
+            if (like != null)
+            {
+                return BadRequest("You already like this user");
+            }
+
+            if (await _datingRepository.GetUser(recepientId) == null)
+            {
+                return NotFound();
+            }
+
+            like = new Like
+            {
+                LikerId = id,
+                LikeeId = recepientId
+            };
+
+            _datingRepository.Add<Like>(like);
+
+            if (await _datingRepository.SaveAll())
+            {
+                return Ok("Like operation successfull..");
+            }
+
+            return BadRequest("Failed to like operation..");
+
         }
     }
 }

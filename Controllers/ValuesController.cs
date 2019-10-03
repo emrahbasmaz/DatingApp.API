@@ -14,7 +14,7 @@ namespace DatingApp.Apı.Controllers
     [EnableCors("AllowSpecificOrigin")]
     public class ValuesController : ControllerBase
     {
-        private readonly DataContext _context ;
+        private readonly DataContext _context;
 
         public ValuesController(DataContext context)
         {
@@ -23,7 +23,7 @@ namespace DatingApp.Apı.Controllers
         }
         // GET api/values
         [HttpGet]
-        public async Task< IActionResult> GetValues()
+        public async Task<IActionResult> GetValues()
         {
             var values = await _context.Values.ToListAsync();
             return Ok(values);
@@ -33,7 +33,7 @@ namespace DatingApp.Apı.Controllers
         [HttpGet("{id}")]
         public IActionResult GetValue(int id)
         {
-            var values = _context.Values.FirstOrDefault(x=> x.Id == id);
+            var values = _context.Values.FirstOrDefault(x => x.Id == id);
             return Ok(values);
         }
 
