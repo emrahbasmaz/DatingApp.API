@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>7a89bfc2-34ea-4956-8295-cb93aea69478</ProjectGuid>
+    <ProjectGuid>ae423bf5-eb6c-4ae0-9541-b713de8a1519</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/values</DockerServiceUrl>
     <DockerServiceName>datingapp.api</DockerServiceName>

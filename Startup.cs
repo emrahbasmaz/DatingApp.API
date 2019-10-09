@@ -188,6 +188,13 @@ namespace DatingApp.Apı
 
             #endregion
 
+
+            //services.AddHttpsRedirection(options =>
+            //{
+            //    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+            //    options.HttpsPort = 5001;
+            //});
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API", Version = "v1" });
@@ -217,9 +224,9 @@ namespace DatingApp.Apı
                         }
                     });
                 });
-                //app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Error");
                 //// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                //app.UseHsts();
+                app.UseHsts();
             }
 
             //seeder.SeedUsers();

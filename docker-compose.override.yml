@@ -3,12 +3,12 @@ version: '3.4'
 services:
   datingapp.api:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44400
+      - ASPNETCORE_HTTPS_PORT=44399
     ports:
-      - "10002:80"
-      - "44400:443"
+      - "10001:80"
+      - "44399:443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
