@@ -40,6 +40,7 @@ namespace DatingApp.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+
             var userToCreate = new Users
             {
                 Username = userForRegisterDto.Username

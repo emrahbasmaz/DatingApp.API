@@ -1,0 +1,39 @@
+services:
+  datingapp.api:
+    build:
+      context: C:\Users\emrah\source\repos\Demo\DatingApp\DatingApp.API
+      dockerfile: Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: DatingApp.Api
+      target: base
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTPS_PORT: '44399'
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
+    image: datingappapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
+        --additionalProbingPath /root/.nuget/fallbackpackages  "bin/Debug/netcoreapp3.0/DatingApp.Api.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - published: 10001
+      target: 80
+    - published: 44399
+      target: 443
+    tty: true
+    volumes:
+    - C:\Users\emrah\source\repos\Demo\DatingApp\DatingApp.API:/app:rw
+    - C:\Users\emrah\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\emrah\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\emrah\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Program Files\dotnet\sdk\NuGetFallbackFolder:/root/.nuget/fallbackpackages:ro
+    - C:\Users\emrah\.nuget\packages:/root/.nuget/packages:ro
+    - C:\Users\emrah\source\repos\Demo\DatingApp\DatingApp.API:/src:rw
+version: '3.4'

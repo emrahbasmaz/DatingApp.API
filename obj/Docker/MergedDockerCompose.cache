@@ -1,0 +1,19 @@
+services:
+  datingapp.api:
+    build:
+      context: C:\Users\emrah\source\repos\Demo\DatingApp\DatingApp.API
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTPS_PORT: '44399'
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: datingappapi
+    ports:
+    - published: 10001
+      target: 80
+    - published: 44399
+      target: 443
+    volumes:
+    - C:\Users\emrah\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\emrah\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'
